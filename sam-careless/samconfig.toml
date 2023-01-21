@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "careless-stack"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-fp5sh9u4jzgk"
+s3_prefix = "careless-stack"
+region = "eu-west-1"
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []
