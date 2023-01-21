@@ -16,31 +16,31 @@ Globals:
 
 Resources:
 
-  MyLayer:
+  CarelessLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      ContentUri: my_layer
+      ContentUri: careless_layer
       CompatibleRuntimes:
         - python3.9
     Metadata:
       BuildMethod: python3.9
 
-  HelloWorldFunction:
+  CarelessFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello_world/
+      CodeUri: careless_det/
       Handler: app.lambda_handler
       Runtime: python3.9
-      Timeout: 30
+      Timeout: 300
       Layers:
-      - !Ref MyLayer
+      - !Ref CarelessLayer
       Architectures:
       - x86_64
       Events:
-        HelloWorld:
+        Careless:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /hello
+            Path: /prediction
             Method: post
 
   ApplicationResourceGroup:
@@ -67,12 +67,12 @@ Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: API Gateway endpoint URL for Prod stage for Hello World function
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: Hello World Lambda Function ARN
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  CarelessApi:
+    Description: API Gateway endpoint URL for Prod stage for Careless function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/prediction/"
+  CarelessFunction:
+    Description: Careless Lambda Function ARN
+    Value: !GetAtt CarelessFunction.Arn
+  CarelessFunctionIamRole:
+    Description: Implicit IAM Role created for Careless function
+    Value: !GetAtt CarelessFunctionRole.Arn
