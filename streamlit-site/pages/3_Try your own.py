@@ -2,11 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import random as rnd
-import pickle  
+import pickle
 import time
-from helpers import testDfCreate, predictDf
-
-model = pickle.load(open('models/gbm_20_cr_all.pkl', 'rb'))
+from helpers import *
 
 st.set_page_config(
     page_title="Try Your Own",
@@ -16,19 +14,36 @@ st.set_page_config(
 st.write("Take a survey and test if it is considered careless")
 
 lst = []
-placeholder = st.empty()
-with placeholder.container():
-    for i in range(1,25):
-        lst.append(st.selectbox('Q'+str(i),options=[1,2,3,4,5], index=0, key=i+int(time.time()) ))
-if st.button('Randomise Answers'):
-    lst = []
-    placeholder.empty()
-    with st.spinner('Randomising...'):
-        time.sleep(1)
-    with placeholder.container():
-        for i in range(1,25):
-            lst.append(st.empty().selectbox('Q'+str(i),options=[1,2,3,4,5], index=rnd.randint(0,4), key=i+25+int(time.time())))
-        # st.write(lst[i]) #.index=rnd.randint(0,4)
+dict = {}
+for i in range(1, 25):
+    dict[i] = st.selectbox(
+        'Q'+str(i), options=[1, 2, 3, 4, 5])
+
+st.write("Select from different models and settings")
+
+col1, col2, col3 = st.columns(3, gap="medium")
+
+with col1:
+    st.write('Select what kind of responders will be detected')
+    cr_type = st.selectbox('Survey Type', options=['all', 'human', 'computer'])
+
+with col2:
+    st.write('Select the expected percentage rate of carelessness')
+    cr_rate = str(st.selectbox('Careless Rate', options=[5, 10, 15, 20]))
+
+with col3:
+    st.write('Select the model type to use for detection')
+    cr_model = setType(st.selectbox('Model',
+                                    options=['Random Forest', 'Gradient Boosted', 'K-Nearest Neighbours',
+                                             'Support Vector Machines', 'Neural Net']))
+
+user_selection = cr_model + '_' + cr_rate + '_cr_' + cr_type
+
 if st.button('Test Survey'):
-    df = testDfCreate(lst)
-    predictDf(df)
+    lst = []
+    for i in range(1, 25):
+        lst.append(dict[i])
+    with st.spinner('Running ' + user_selection):
+
+        json_input = JSONParser(lst, user_selection)
+        predictList(json_input)
