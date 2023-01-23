@@ -6,8 +6,12 @@ import joblib
 import imblearn
 from boto.s3.key import Key
 from boto.s3.connection import S3Connection
-
+import os
 import logging
+
+import boto3
+from botocore.exceptions import ClientError
+
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -15,11 +19,42 @@ logger.setLevel(logging.INFO)
 BUCKET_NAME = 'careless-detection-models'
 MODEL_FILE_NAME_DEFAULT = 'gbm_10_cr_all.pkl'
 MODEL_LOCAL_PATH_DEFAULT = '/tmp/' + MODEL_FILE_NAME_DEFAULT
+aws_access_key = os.environ.get('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
+
+
+def get_secret():
+
+    secret_name = "prod/careless"
+    region_name = "eu-west-1"
+
+    # Create a Secrets Manager client
+    session = boto3.session.Session()
+    client = session.client(
+        service_name='secretsmanager',
+        region_name=region_name
+    )
+
+    try:
+        get_secret_value_response = client.get_secret_value(
+            SecretId=secret_name
+        )
+    except ClientError as e:
+        # For a list of exceptions thrown, see
+        # https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+        raise e
+
+    # Decrypts secret using the associated KMS key.
+    sstring = json.loads(get_secret_value_response['SecretString'])
+    s1 = sstring["s31"]
+    s2 = sstring['s32']
+    return (s1, s2)
 
 def load_model(model_name):
     try:
-        conn = S3Connection()
+        s1, s2 = get_secret()
+        conn = S3Connection(s1, s2)
         bucket = conn.get_bucket(BUCKET_NAME)
         key_obj = Key(bucket)
 
@@ -52,6 +87,10 @@ def testDfCreate(lst):
 def lambda_handler(event, context):
 
     # # Get input JSON data and convert it to a DF
+
+    # For testing
+    # body = '{"model":"gbm_10_cr_all","input":[{"responder":[4,4,3,4,5,5,4,5,5,5,4,4,3,4,4,4,4,5,5,4,4,4,5,5]}]}'
+
     body = event.get('body')
     input_json = json.loads(body).get('input')
     model_name = json.loads(body).get('model')
