@@ -6,7 +6,7 @@ import requests
 import json
 from requests.auth import HTTPBasicAuth
 
-AWS_URL = 'https://ii7zuwwoapjvl5qbf5cajvyhfm0nqmex.lambda-url.eu-west-1.on.aws'
+AWS_URL = 'https://2gp1fuo9na.execute-api.eu-west-1.amazonaws.com/Prod/prediction/'
 
 
 # @st.cache
@@ -45,7 +45,8 @@ def predictList(parsed_json):
     # url = LAMBDA_URL+'/invocations/123'
     url = 'http://127.0.0.1:3000/prediction'
     auth = HTTPBasicAuth('apikey', '')
-    res = requests.post(url, json=parsed_json, auth=auth)
+    res = requests.post(AWS_URL, json=parsed_json, auth=auth)
+    st.write(res)
     body = res.json()
     if 'output' not in body:
         st.error('There was an issue with this model')
