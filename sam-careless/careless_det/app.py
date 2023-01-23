@@ -19,15 +19,17 @@ logger.setLevel(logging.INFO)
 BUCKET_NAME = 'careless-detection-models'
 MODEL_FILE_NAME_DEFAULT = 'gbm_10_cr_all.pkl'
 MODEL_LOCAL_PATH_DEFAULT = '/tmp/' + MODEL_FILE_NAME_DEFAULT
-aws_access_key = os.environ.get('AWS_ACCESS_KEY_ID')
-aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+CARELESS_SECRET_NAME = "..."
+CARELESS_KEY_1 = '...'
+CARELESS_KEY_2 = '...'
+AWS_REGION_NAME = "eu-west-1"
 
 
 
 def get_secret():
 
-    secret_name = "prod/careless"
-    region_name = "eu-west-1"
+    secret_name = CARELESS_SECRET_NAME
+    region_name = AWS_REGION_NAME
 
     # Create a Secrets Manager client
     session = boto3.session.Session()
@@ -47,8 +49,8 @@ def get_secret():
 
     # Decrypts secret using the associated KMS key.
     sstring = json.loads(get_secret_value_response['SecretString'])
-    s1 = sstring["s31"]
-    s2 = sstring['s32']
+    s1 = sstring[CARELESS_KEY_1]
+    s2 = sstring[CARELESS_KEY_2]
     return (s1, s2)
 
 def load_model(model_name):
@@ -74,6 +76,7 @@ def load_model(model_name):
     except:
         return '*** ERROR: COULD NOT LOAD MODEL ***'
     return model
+
 
 
 def testDfCreate(lst):

@@ -16,14 +16,14 @@ Globals:
 
 Resources:
 
-  CarelessLayer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      ContentUri: careless_layer
-      CompatibleRuntimes:
-        - python3.9
-    Metadata:
-      BuildMethod: python3.9
+  # CarelessLayer:
+  #   Type: AWS::Serverless::LayerVersion
+  #   Properties:
+  #     ContentUri: careless_layer
+  #     CompatibleRuntimes:
+  #       - python3.9
+  #   Metadata:
+  #     BuildMethod: python3.9
 
   CarelessFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -32,8 +32,8 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.9
       Timeout: 300
-      Layers:
-      - !Ref CarelessLayer
+      # Layers:
+      # - !Ref CarelessLayer
       Architectures:
       - x86_64
       Events:
