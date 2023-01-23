@@ -37,13 +37,14 @@ def JSONParser(lst, user_selection):
     dictionary = '''{"model":"''' + user_selection + \
         '''", "input":[{"responder":'''+str(lst)+'''}]}'''
     json_object = json.loads(dictionary)
+    print(json_object)
     return json_object
 
 
 def predictList(parsed_json):
 
     # url = LAMBDA_URL+'/invocations/123'
-    url = 'http://127.0.0.1:3000/prediction'
+    local_url = 'http://127.0.0.1:3000/prediction'
     auth = HTTPBasicAuth('apikey', '')
     res = requests.post(AWS_URL, json=parsed_json, auth=auth)
     st.write(res)
@@ -64,7 +65,6 @@ def setType(model_select):
 
     switch = {
         'Gradient Boosted ': 'gbm',
-        'Random Forest': 'rf',
         'K-Nearest Neighbours': 'knn',
         'Support Vector Machines': 'svm',
         'Neural Net': 'nnet'

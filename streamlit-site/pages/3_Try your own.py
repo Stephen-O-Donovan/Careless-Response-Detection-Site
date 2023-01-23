@@ -34,7 +34,7 @@ with col2:
 with col3:
     st.write('Select the model type to use for detection')
     cr_model = setType(st.selectbox('Model',
-                                    options=['Random Forest', 'Gradient Boosted', 'K-Nearest Neighbours',
+                                    options=['Gradient Boosted', 'K-Nearest Neighbours',
                                              'Support Vector Machines', 'Neural Net']))
 
 user_selection = cr_model + '_' + cr_rate + '_cr_' + cr_type
@@ -44,6 +44,7 @@ if st.button('Test Survey'):
     for i in range(1, 25):
         lst.append(dict[i])
     with st.spinner('Running ' + user_selection):
+        st.write(str(lst))
 
         json_input = JSONParser(lst, user_selection)
         predictList(json_input)
