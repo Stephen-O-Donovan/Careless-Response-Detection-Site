@@ -16,6 +16,7 @@ with st.expander("A (growing) list of tech used"):
     st.header('AWS')
     st.subheader('Fargate')
     st.subheader('ECR')
+    st.subheader('ECS')
     st.subheader('S3')
     st.subheader('SAM')
     st.subheader('Lambda')
