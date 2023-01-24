@@ -1,7 +1,7 @@
 # base image
 FROM ubuntu:22.04
 
-# ubuntu installing - python, pip, graphviz
+# ubuntu installing - python, pip
 RUN apt-get update &&\
     apt-get install python3.9 -y &&\
     apt-get install python3-pip -y 
@@ -22,4 +22,4 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 # cmd to launch app when container is run
-CMD streamlit run Careless_Detection.py
+CMD streamlit run app.py --server.enableXsrfProtection=false --server.enableCORS=false --server.enableWebsocketCompression=false
