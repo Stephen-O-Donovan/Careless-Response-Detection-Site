@@ -1,25 +1,11 @@
-# base image
-FROM ubuntu:22.04
+FROM python:3.7
 
-# ubuntu installing - python, pip
-RUN apt-get update &&\
-    apt-get install python3.9 -y &&\
-    apt-get install python3-pip -y 
-
-# exposing default port for streamlit
 EXPOSE 8501
 
-# making directory of app
-WORKDIR /streamlit-docker
+WORKDIR /usr/src/app
 
-# copy over requirements
-COPY requirements.txt ./requirements.txt
+COPY requirements.txt ./
 
-# install pip then packages
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
-# copying all files over
 COPY . .
-
-# cmd to launch app when container is run
-CMD streamlit run app.py --server.enableXsrfProtection=false --server.enableCORS=false --server.enableWebsocketCompression=false
