@@ -1,0 +1,20 @@
+Uses terraform, docker, git, soap ui, boto3
+
+linux: export FLASK_APP=app
+windows: set FLASK_APP=app
+
+generate requirements text: pipreqs
+
+create ecr repository
+aws ecr create-repository \
+    --repository-name flask-careless-detection \
+    --image-scanning-configuration scanOnPush=true \
+    --region eu-west-1
+
+terraform
+cd terraform
+terraform init
+terraform fmt -recursive
+terraform validate
+terraform plan
+terraform apply
