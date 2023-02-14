@@ -17,10 +17,10 @@ def predict():
     data = request.form
     model = data['model']
     rate = data['rate']
-    type = data['type']
+    survey_type = data['type']
     confirmed_type = data['confirm']
 
-    user_selection = model + '_' + rate + '_cr_' + type
+    user_selection = model + '_' + rate + '_cr_' + survey_type
     if(confirmed_type =='careless'):
         print('careless type check')
         qlist = []
@@ -36,7 +36,7 @@ def predict():
     print(prediction)
     response = f"""
     <p id="cr-result">Model {model} determined the confirmed type {confirmed_type} to be {prediction}
-    based on a careless rate of {rate} and a survey type of {type} </p>
+    based on a careless rate of {rate} and a survey type of {survey_type} </p>
     """
 
     return response
@@ -45,5 +45,5 @@ def predict():
     # return render_template('index.html', prediction_text='Determined to be {}'.format(prediction))
 
 if __name__ == '__main__':
-    app.run(threaded=True,host='0.0.0.0',port=5000)
+    app.run(threaded=True,host='0.0.0.0',port=80)
 

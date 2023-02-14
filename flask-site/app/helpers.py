@@ -6,7 +6,10 @@ import requests
 import json
 from requests.auth import HTTPBasicAuth
 
-AWS_URL = 'https://2gp1fuo9na.execute-api.eu-west-1.amazonaws.com/Prod/prediction/'
+AWS_URL = "" 
+with open('aws_links.json', 'r') as aws_file:
+    aws_data = json.load(aws_file)
+    AWS_URL = aws_data["AWS_LAMBDA_URL"]
 
 def JSONParser(lst, user_selection):
 
@@ -20,20 +23,21 @@ def JSONParser(lst, user_selection):
 def predictList(parsed_json):
 
 
-    local_url = 'http://127.0.0.1:3000/prediction'
+    # local_url = 'http://127.0.0.1:3000/prediction'
     auth = HTTPBasicAuth('apikey', '')
     res = requests.post(AWS_URL, json=parsed_json, auth=auth)
     print(res)
     body = res.json()
-    if 'output' not in body:
-        return ('There was an issue with this model')
-    else:
-        prediction = body['output']
-        for p in prediction:
-            if p == 'Regular':
-                return ('A Regular Responder')
-            else:
-                return ('Carelessness Detected!')
+    return body
+    # if 'output' not in body:
+    #     return ('There was an issue with this model')
+    # else:
+    #     prediction = body['output']
+    #     for p in prediction:
+    #         if p == 'Regular':
+    #             return ('A Regular Responder')
+    #         else:
+    #             return ('Carelessness Detected!')
 
 
 def setType(model_select):

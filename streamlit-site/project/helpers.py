@@ -6,7 +6,10 @@ import requests
 import json
 from requests.auth import HTTPBasicAuth
 
-AWS_URL = 'https://2gp1fuo9na.execute-api.eu-west-1.amazonaws.com/Prod/prediction/'
+AWS_URL = ""
+with open('aws_links.json', 'r') as aws_file:
+    aws_data = json.load(aws_file)
+    AWS_URL = aws_data["AWS_LAMBDA_URL"]
 
 
 # @st.cache

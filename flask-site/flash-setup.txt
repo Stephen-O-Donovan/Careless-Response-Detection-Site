@@ -11,10 +11,3 @@ aws ecr create-repository \
     --image-scanning-configuration scanOnPush=true \
     --region eu-west-1
 
-terraform
-cd terraform
-terraform init
-terraform fmt -recursive
-terraform validate
-terraform plan
-terraform apply
