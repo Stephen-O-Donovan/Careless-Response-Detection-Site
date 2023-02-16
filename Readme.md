@@ -30,21 +30,21 @@ then pickled and saved. The file model_generator.ipynb contains all the code use
 ### Building a backend framework
 
 To allow users to test the models a backend framework was developed using AWS. Python code was created and set to run 
-on an AWS Lambda service and connected to an AWS API Gateway point which served as the link between the frontend website and the models. This gatewat receives the requests from the website and passes it on to the Lambda service. This then fetches and loads the selected model from an AWS S3 bucket, unpickles and runs it againes the survey data recieved, 
-subsequently sendsing back its predictions on whether the survey data is considered careless. Development of the backend framework was done locally using the AWS CLI and AWS SAM.
+on an AWS Lambda service and connected to an AWS API Gateway point which served as the link between the frontend website and the models. This gateway receives the requests from the website and passes it on to the Lambda service. This then fetches and loads the selected model from an AWS S3 bucket, unpickles and runs it againes the survey data recieved, 
+subsequently sending back its predictions on whether the survey data is considered careless. Development of the backend framework was done locally using the AWS CLI and AWS SAM.
 Technologies used:
 
 * AWS Lambda - to carry out code execution
 * AWS SAM and AWS CLI - for local development
 * AWS API Gateway - to link the end user website to the backend 
 * S3 Buckets - To store the pickled models
-* AWS Secrets Keeper - to allow S#Connection to securly access the S3 bucket
+* AWS Secrets Keeper - to allow S3Connection to securly access the S3 bucket
 
 ### Building a frontend website
 
 Two versions of the end user website were developed, one using Python streamlit and the other using Python flask.
 For both, docker was used to containerise the code and test development locally before uploading to an AWS ECR. 
-AN AWS ECS was then developed to deploy the webapp.
+AWS ECS was then used to deploy the webapp.
 Technologies used
 
 * Flask and streamlit - to build the webapp

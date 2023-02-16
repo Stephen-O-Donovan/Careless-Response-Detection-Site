@@ -19,9 +19,9 @@ logger.setLevel(logging.INFO)
 BUCKET_NAME = 'careless-detection-models'
 MODEL_FILE_NAME_DEFAULT = 'gbm_10_cr_all.pkl'
 MODEL_LOCAL_PATH_DEFAULT = '/tmp/' + MODEL_FILE_NAME_DEFAULT
-CARELESS_SECRET_NAME = "..."
-CARELESS_KEY_1 = '...'
-CARELESS_KEY_2 = '...'
+CARELESS_SECRET_NAME = "prod/careless"
+CARELESS_KEY_1 = 's31'
+CARELESS_KEY_2 = 's32'
 AWS_REGION_NAME = "eu-west-1"
 
 
@@ -78,7 +78,6 @@ def load_model(model_name):
     return model
 
 
-
 def testDfCreate(lst):
     df = pd.DataFrame()
     for i in range(1, 25):
@@ -89,12 +88,13 @@ def testDfCreate(lst):
 
 def lambda_handler(event, context):
 
-    # # Get input JSON data and convert it to a DF
+    # Get input JSON data and convert it to a DF
 
-    # For testing
+    #For testing
     # body = '{"model":"gbm_10_cr_all","input":[{"responder":[4,4,3,4,5,5,4,5,5,5,4,4,3,4,4,4,4,5,5,4,4,4,5,5]}]}'
-
+    
     body = event.get('body')
+
     input_json = json.loads(body).get('input')
     model_name = json.loads(body).get('model')
     input_df = pd.DataFrame(input_json)
@@ -107,7 +107,7 @@ def lambda_handler(event, context):
         list_out.append(prediction[0])
 
     predictions = list(map(lambda x: 'Careless' if x ==
-                       1 else 'Regular', list_out))
+                      1 else 'Regular', list_out))
     result['output'] = predictions
     result = json.dumps(result)
 
