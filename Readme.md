@@ -25,7 +25,8 @@ The model types built were:
 * Bayesian Additive Regression Trees (BART)
 
 For each model type, models were built based on one of three survey types (human generated, computer generated, and a mixture of both) and rate of expected careless responses (5, 10, 15 and 20%) for a total of 72 models. Each were
-then pickled and saved. The file model_generator.ipynb contains all the code used to do this
+then pickled and saved. 
+The folder careless detection model generator contains all the code, including a library to generate objects and unit testing code
 
 ### Building a backend framework
 
