@@ -199,6 +199,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# data files
+/careless detection model generator/data_mod_resp.csv
+/careless detection model generator/cr_all.csv
+/careless detection model generator/cr_test.py
 # Spyder project settings
 .spyderproject
 .spyproject
