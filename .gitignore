@@ -3,7 +3,7 @@
 
 #AWS Link files
 streamlit-site/project/aws_links.json
-flask-site/app/aws_links.json
+**/aws_links.json
 
 ### Linux ###
 *~
@@ -248,5 +248,10 @@ $RECYCLE.BIN/
 # Build folder
 
 */build/*
+
+# database & logs
+*.db
+*.sqlite3
+*.log
 
 # End of https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode

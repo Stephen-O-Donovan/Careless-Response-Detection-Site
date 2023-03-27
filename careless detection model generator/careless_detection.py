@@ -1,4 +1,17 @@
 
+"""
+A comprehensive library to build various types of machine 
+learning models aimed at detecting careless responses in 
+survey data.
+
+This library accepts, checks and formats survey data and allows
+fitting of various types of ML models.
+
+Testing and evaluation of the models is provided along with the
+option to save fitted models as pickled files.
+
+"""
+
 import pandas as pd
 import numpy as np
 import random as rnd

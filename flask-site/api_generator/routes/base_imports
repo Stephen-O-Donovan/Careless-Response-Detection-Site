@@ -1,0 +1,7 @@
+from app.api import blueprint
+from app.authentication.decorators import token_required
+
+from app.api.forms import *
+from app.models    import *
+
+api = Api(blueprint)
