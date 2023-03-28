@@ -1,4 +1,7 @@
 # -*- encoding: utf-8 -*-
+"""
+Copyright (c) 2019 - present AppSeed.us
+"""
 
 import json
 from datetime import datetime
@@ -13,10 +16,13 @@ from flask_login import (
     logout_user
 )
 
+# from flask_dance.contrib.github import github
+
 from app import db, login_manager
 from app.authentication import blueprint
 from app.authentication.forms import LoginForm, CreateAccountForm
 from app.authentication.models import Users
+
 from app.authentication.util import verify_pass, generate_token
 
 # Bind API -> Auth BP
@@ -24,12 +30,24 @@ api = Api(blueprint)
 
 @blueprint.route('/')
 def route_default():
+    print('ffffffffffffffffffffffff')
     return redirect(url_for('authentication_blueprint.login'))
 
 # Login & Registration
 
+# @blueprint.route("/github")
+# def login_github():
+#     print('aaaaaaaaaaaaaaaaaaaaaa')
+#     """ Github login """
+#     if not github.authorized:
+#         return redirect(url_for("github.login"))
+
+#     res = github.get("/user")
+#     return redirect(url_for('home_blueprint.index'))
+
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+    print('bbbbbbbbbbbbbbbbbbbbbbb')
     login_form = LoginForm(request.form)
 
     if flask.request.method == 'POST':
@@ -41,7 +59,7 @@ def login():
         #return 'Login: ' + email + ' / ' + password
 
         # Locate user
-        user = Users.query.filter_by(username=email).first()
+        user = Users.query.filter_by(email=email).first()
 
         # Check the password
         if user and verify_pass(password, user.password):
@@ -50,7 +68,7 @@ def login():
 
         # Something (user or pass) is not ok
         return render_template('accounts/login.html',
-                               msg='Wrong email or password',
+                               msg='Wrong user or password',
                                form=login_form)
 
     if current_user.is_authenticated:
@@ -58,7 +76,8 @@ def login():
     else:
         return render_template('accounts/login.html',
                                form=login_form) 
-    
+
+
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     create_account_form = CreateAccountForm(request.form)
@@ -67,7 +86,7 @@ def register():
         email = request.form['email']
 
         # Check email exists
-        user = Users.query.filter_by(username=email).first()
+        user = Users.query.filter_by(email=email).first()
         if user:
             return render_template('accounts/register.html',
                                    msg='Email already registered',
@@ -89,7 +108,7 @@ def register():
 
     else:
         return render_template('accounts/register.html', form=create_account_form)
-    
+
 @api.route('/login/jwt/', methods=['POST'])
 class JWTLogin(Resource):
     def post(self):
@@ -101,7 +120,7 @@ class JWTLogin(Resource):
 
             if not data:
                 return {
-                           'message': 'email or password is missing',
+                           'message': 'username or password is missing',
                            "data": None,
                            'success': False
                        }, 400
@@ -139,26 +158,29 @@ class JWTLogin(Resource):
                        "message": str(e)
                    }, 500
 
+
 @blueprint.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('authentication_blueprint.login')) 
 
+# Errors
+
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return render_template('home/page-403.html'), 403
+    return render_template('home/403.html'), 403
 
 
 @blueprint.errorhandler(403)
 def access_forbidden(error):
-    return render_template('home/page-403.html'), 403
+    return render_template('home/403.html'), 403
 
 
 @blueprint.errorhandler(404)
 def not_found_error(error):
-    return render_template('home/page-404.html'), 404
+    return render_template('home/404.html'), 404
 
 
 @blueprint.errorhandler(500)
 def internal_error(error):
-    return render_template('home/page-500.html'), 500
+    return render_template('home/500.html'), 500

@@ -1,4 +1,7 @@
 # -*- encoding: utf-8 -*-
+"""
+Copyright (c) 2019 - present AppSeed.us
+"""
 
 import os, random, string
 
@@ -13,6 +16,7 @@ class Config(object):
     SECRET_KEY  = os.getenv('SECRET_KEY', None)
     if not SECRET_KEY:
         SECRET_KEY = ''.join(random.choice( string.ascii_lowercase  ) for i in range( 32 ))    
+
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -62,6 +66,7 @@ class ProductionConfig(Config):
 
 class DebugConfig(Config):
     DEBUG = True
+
 
 # Load all possible configurations
 config_dict = {

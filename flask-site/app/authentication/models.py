@@ -1,4 +1,7 @@
 # -*- encoding: utf-8 -*-
+"""
+Copyright (c) 2019 - present AppSeed.us
+"""
 
 from flask_login import UserMixin
 
@@ -36,17 +39,20 @@ class Users(db.Model, UserMixin):
 
     def __repr__(self):
         return str(self.username)
-    
+
+
 @login_manager.user_loader
 def user_loader(id):
     return Users.query.filter_by(id=id).first()
 
+
 @login_manager.request_loader
 def request_loader(request):
-    username = request.form.get('email')
-    user = Users.query.filter_by(username=username).first()
+    email = request.form.get('email')
+    user = Users.query.filter_by(email=email).first()
     return user if user else None
 
 class OAuth(OAuthConsumerMixin, db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("Users.id", ondelete="cascade"), nullable=False)
     user = db.relationship(Users)
+    

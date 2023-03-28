@@ -16,4 +16,3 @@ class SurveyForm(ModelForm):
 class TestForm(ModelForm):
     class Meta:
         model = Test
-

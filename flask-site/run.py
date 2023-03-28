@@ -1,10 +1,12 @@
-
 # -*- encoding: utf-8 -*-
+"""
+Copyright (c) 2019 - present AppSeed.us
+"""
 
 import os
-from flask_migrate import Migrate
-from flask_minify  import Minify
-from sys import exit
+from   flask_migrate import Migrate
+from   flask_minify  import Minify
+from   sys import exit
 
 from api_generator.commands import gen_api
 
@@ -42,4 +44,3 @@ for command in [gen_api, ]:
     
 if __name__ == "__main__":
     app.run()
-

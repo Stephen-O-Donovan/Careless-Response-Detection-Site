@@ -1,4 +1,7 @@
 # -*- encoding: utf-8 -*-
+"""
+Copyright (c) 2019 - present AppSeed.us
+"""
 
 from app.home import blueprint
 from flask import render_template, request
@@ -32,7 +35,8 @@ def route_template(template):
 
     except:
         return render_template('home/500.html'), 500
-    
+
+
 # Helper - Extract current page name from request
 def get_segment(request):
 

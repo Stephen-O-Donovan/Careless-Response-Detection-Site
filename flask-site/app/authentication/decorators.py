@@ -6,6 +6,7 @@ from flask import request, current_app
 
 from app.authentication.models import Users
 
+
 def token_required(func):
     @wraps(func)
     def decorated(*args, **kwargs):
